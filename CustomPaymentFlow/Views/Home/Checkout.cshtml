@@ -1,0 +1,47 @@
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration configuration
+@model ViewModel
+
+<h3>Total Amount to paid:: @ViewBag.TotalCost
+</h3>
+<div>
+    &nbsp;
+</div>
+@foreach (var item in Model.Items)
+{
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            @item.Name
+        </div>
+        <div class="col-md-4">
+            @item.Price
+        </div>
+    </div>
+}
+<input type="hidden" id="itemIds" value='@string.Join(",", Model.Items.Select(i => i.Id))'>
+<input type="hidden" id="stripeId" value='@configuration["AppSettings:StripeKeys:PublishableKey"]'>
+
+<div>
+    &nbsp;
+</div>
+<!-- Display a payment form -->
+<form id="payment-form">
+    <div id="card-element"><!--Stripe.js injects the Card Element--></div>
+    <div>&nbsp;</div>
+    <button id="submit">
+    <div class="spinner hidden" id="spinner"></div>
+    <span id="button-text">Pay now</span>
+    </button>
+    <p id="card-error" role="alert"></p>
+    <p class="result-message hidden">
+    Payment succeeded, see the result in your
+    <a href="" target="_blank">Stripe dashboard.</a> Refresh the page to pay again.
+    </p>
+</form>
+
+@section Scripts{
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+    <script src="~/js/client.js" defer></script>
+}
+

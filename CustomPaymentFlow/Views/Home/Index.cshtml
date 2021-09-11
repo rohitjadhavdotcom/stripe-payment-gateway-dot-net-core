@@ -1,0 +1,50 @@
+﻿@model ViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+<style>
+    ul{
+        list-style-type: none;
+        text-align: left;
+    }
+</style>
+<div class="text-center">
+    <form method="post" asp-action="Checkout" asp-controller="Home">
+        
+    <h1 class="display-4">Welcome to stripe custom payment example</h1>
+    <h1 class="display-5">Please select items to check out</h1>
+    @*@for(int i = 0; i<Model.Items.Count; i++)
+    {
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                @Model.Items[i].Name Type:
+			</div>
+            <div class="col-md-4">  
+                    <select id="drpEmpList" class="form-control" asp-for="Items[i].Selected" asp-items="@(new SelectList(Model.Items[i].Items, "Value", "Text"))">  
+                        <option value="">--Select--</option>  
+                    </select>  
+                    <input type="hidden" asp-for="Items[i].Selected" />  
+            </div>
+	    </div>
+    }*@
+    <div class="row">
+        &nbsp;
+	</div>
+    <div class="row justify-content-center">
+        <ul>
+            @for(int i = 0; i < Model.Items.Count; i++)
+            {
+                
+                <li>       
+                    <input type="checkbox" asp-for="@Model.Items[i].Selected"  />
+                    <label asp-for="@Model.Items[i].Selected">@Model.Items[i].Name</label>
+                    <input type="hidden" asp-for="@Model.Items[i].Id" />
+                    <input type="hidden" asp-for="@Model.Items[i].Name" />                
+                </li>
+            }
+        </ul>
+    </div>
+    <button class="btn btn-primary" type="submit">Checkout</button>
+    </form>
+
+</div>
